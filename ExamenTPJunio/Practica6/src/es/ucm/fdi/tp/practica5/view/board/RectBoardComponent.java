@@ -95,8 +95,8 @@ public abstract class RectBoardComponent extends JComponent implements GameObser
 
 			@Override
 			public void mouseClicked(MouseEvent e) {				
-				int row = (e.getX()/_CELL_WIDTH);
-				int col = (e.getY()/_CELL_HEIGHT);
+				int col = (e.getX()/_CELL_WIDTH);
+				int row = (e.getY()/_CELL_HEIGHT);
 				RectBoardComponent.this.mouseClicked(row, col, e.getClickCount(), e.getButton());
 			}
 		});
@@ -141,14 +141,14 @@ public abstract class RectBoardComponent extends JComponent implements GameObser
 	 */
 	private void fillBoard(Graphics g) {
 		int x, y;
-		this._CELL_WIDTH  = this.getWidth()  / board.getCols();
-		this._CELL_HEIGHT = this.getHeight() / board.getRows();
+		this._CELL_WIDTH  = this.getWidth()  / board.getRows();
+		this._CELL_HEIGHT = this.getHeight() / board.getCols();
 	  
 		for (int i = 0; i < board.getRows(); i++){
 			for (int j = 0; j < board.getCols(); j++) {
 				
-				x = i * _CELL_WIDTH;
-				y = j * _CELL_HEIGHT;
+				x = j * _CELL_WIDTH;
+				y = i * _CELL_HEIGHT;
 				
 				drawCell(x,y,g);
 

@@ -621,7 +621,7 @@ public abstract class SwingView extends JFrame implements GameObserver{
 			});
 		
 		this.exitPanel.add(quit);		
-		if(this.localPiece.equals(null)){
+		if(this.localPiece == null){
 		JButton restartButton = new JButton("Restart");
 		
 			restartButton.addActionListener(new ActionListener() {

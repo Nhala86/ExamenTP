@@ -322,7 +322,8 @@ public abstract class SwingView extends JFrame implements GameObserver{
 		selectColorComponent ();
 		selectModePlayerComponent();
 		automaticMoveComponent();
-		exitComponent();
+		modoBomba();
+		exitComponent();		
 		this.add(boardPanel, BorderLayout.CENTER);
 		this.add(ControllerPanel, BorderLayout.LINE_END);
 	}
@@ -988,5 +989,59 @@ public abstract class SwingView extends JFrame implements GameObserver{
 		}
 	}
 	
+	//------------------- Componentes de la bomba -------------------------------------------
+	
+	
+	
+	private JComboBox<Integer> bombaModeCombo;
+	
+	private JPanel modoBomb;
+	
+	private void modoBomba(){
+		this.modoBomb = createPanelLabeled("Potencia d", Color.LIGHT_GRAY);
+		this.bombaModeCombo = new JComboBox<Integer>();
+		for(int i = 1; i <6; i++)
+			this.bombaModeCombo.addItem(i);
+		this.modoBomb.add(this.bombaModeCombo);
+		
+		JButton bomba = new JButton("Bomba");
+		this.modoBomb.add(bomba);
+		
+		bomba.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int x = bombaModeCombo.getSelectedIndex();
+				Player bom = new BombPlayer();
+				((BombPlayer) bom).setRadius(x);
+			
+				caseMakeBomb(bom);			
+			}
+			
+		});
+		this.ControllerPanel.add(this.modoBomb);
+	}
+	
+	final protected void caseMakeBomb(Player bombPlayer) {
+		if(this.inMove || !this.inPlay)
+			return;
+		if(this.localPiece != null && !this.localPiece.equals(turn))
+			return;	
+		executeControllerBomba(bombPlayer);
+	}
+	
+	private void executeControllerBomba(final Player player){	
+		
+		SwingUtilities.invokeLater(new Runnable(){
+			@Override
+			public void run() {
+				try{
+					controller.makeMove(player);
+				}catch(GameError e){	
+				}
+			}
+		});
+		
+	}	
 	
 }

@@ -1012,8 +1012,8 @@ public abstract class SwingView extends JFrame implements GameObserver{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int x = bombaModeCombo.getSelectedIndex();
-				Player bom = new BombPlayer();
-				((BombPlayer) bom).setRadius(x);
+				Player bom = new BombaPlayer();
+				((BombaPlayer) bom).setRadio(x);
 			
 				caseMakeBomb(bom);			
 			}

@@ -25,6 +25,7 @@ import es.ucm.fdi.tp.basecode.bgame.model.Game;
 import es.ucm.fdi.tp.basecode.bgame.model.GameError;
 import es.ucm.fdi.tp.basecode.bgame.model.Piece;
 import es.ucm.fdi.tp.basecode.minmax.MinMax;
+import es.ucm.fdi.tp.practica4.cuatroEnRaya.RayaFactory;
 import es.ucm.fdi.tp.practica4.peones.PeonesFactory;
 import es.ucm.fdi.tp.practica5.ataxx.AtaxxFactoryExt;
 import es.ucm.fdi.tp.practica5.connectn.ConnectNFactoryExt;
@@ -873,7 +874,7 @@ public class examenJunio {
 	 */
 	enum GameInfo {
 		CONNECTN("cn", "ConnectN"), TicTacToe("ttt", "Tic-Tac-Toe"), AdvancedTicTacToe("attt",
-				"Advanced Tic-Tac-Toe"), Ataxx("atax", "Ataxx"), Peones("peones", "Peones");
+				"Advanced Tic-Tac-Toe"), Ataxx("atax", "Ataxx"), Peones("peones", "Peones"), FourInLine("four", "Four");
 
 		private String id;
 		private String desc;
@@ -983,6 +984,14 @@ public class examenJunio {
 		case Peones:
 			gameFactory = new PeonesFactoryExt();
 			break;
+		case FourInLine:
+			if(dimRows != null && dimCols != null && dimRows == dimCols){
+				gameFactory = new RayaFactory(dimRows);
+			}
+			else{
+				gameFactory = new RayaFactory();
+			}
+			break;			
 		default:
 			throw new UnsupportedOperationException("Something went wrong! This program point should be unreachable!");
 		}

@@ -63,9 +63,21 @@ public class RayaRules implements GameRules{
 	public Pair<State, Piece> updateState(Board board, List<Piece> pieces, Piece turn) {
 		Pair<State, Piece> result = new Pair<State, Piece>(State.InPlay, null) ;
 		int counter;
-		if(board.isFull()){
-			return new Pair<State, Piece>(State.Draw, null);
-		}
+		int contador = 0;
+		
+		 for(int r = 1; r < this.dimension; r++){
+			 for(int x = 0; x < this.dimension; x++){
+				 if(board.getPosition(r, x) != null){
+					 contador++;
+					 if(contador == ((this.dimension * this.dimension) - this.dimension)){
+						 return new Pair<State, Piece>(State.Draw, null);
+					 }
+				 }
+				 else{
+					 contador = 0;
+				 }
+			 }
+		 }
 		
 		for(int i= 1; i < this.dimension; i++ ){ 
 			counter = 0; 
@@ -75,7 +87,7 @@ public class RayaRules implements GameRules{
 				} 
 				else{ 
 					if(turn.equals(board.getPosition(i, j))) 
-						counter++; 
+						counter++; 					
 					else 
 						counter = 0; 
 					} 
@@ -83,18 +95,17 @@ public class RayaRules implements GameRules{
 		} 
 					 
 		//Check Cols 
-		for(int i= 1; i <this.dimension ; i++ ){ 
+		for(int k = 0; k < this.dimension; k++){ 
 			counter = 0; 
-			for(int j = 0; j < this.dimension; j++){ 
-			 	if(counter == 4){ 
+			for(int d = 0; d < this.dimension; d++){ 
+				if(turn.equals(board.getPosition(d, k)))
+					counter++; 
+			 	else 
+			 		counter = 0;
+				
+				if(counter == 4){ 
 			 		return new Pair<State, Piece>(State.Won, turn); 
 			 	}
-				else{ 
-					if(turn.equals(board.getPosition(j, i))) 
-						counter++; 
-			 		else 
-			 			counter = 0; 
-			 		} 
 			 } 
 		}
 		return result;
@@ -114,16 +125,9 @@ public class RayaRules implements GameRules{
 
 	@Override
 	public List<GameMove> validMoves(Board board, List<Piece> pieces, Piece turn) {
-		int row = 0;
-		int col = 0;
-		Piece piece = turn;
 		List<GameMove> validMoves = new ArrayList<GameMove>();
-		for(int r= 0; r < board.getRows(); r++)
-			for(int c = 0; c < board.getCols(); c++){
-				if(board.getPosition(r, c) == piece){
-					validMoves.add(new RayaMove(col, piece));
-				}
-			}
+		for(int r= 0; r < board.getCols(); r++)
+			validMoves.add(new RayaMove(r, turn));			
 		return validMoves;
 	}
 

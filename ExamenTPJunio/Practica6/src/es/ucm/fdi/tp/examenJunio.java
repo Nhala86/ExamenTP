@@ -29,6 +29,7 @@ import es.ucm.fdi.tp.practica4.cuatroEnRaya.RayaFactory;
 import es.ucm.fdi.tp.practica4.peones.PeonesFactory;
 import es.ucm.fdi.tp.practica5.ataxx.AtaxxFactoryExt;
 import es.ucm.fdi.tp.practica5.connectn.ConnectNFactoryExt;
+import es.ucm.fdi.tp.practica5.cuatroEnRaya.RayaFactoryExt;
 import es.ucm.fdi.tp.practica5.peones.PeonesFactoryExt;
 import es.ucm.fdi.tp.practica5.ttt.TicTacToeFactoryExt;
 
@@ -986,10 +987,10 @@ public class examenJunio {
 			break;
 		case FourInLine:
 			if(dimRows != null && dimCols != null && dimRows == dimCols){
-				gameFactory = new RayaFactory(dimRows);
+				gameFactory = new RayaFactoryExt(dimRows);
 			}
 			else{
-				gameFactory = new RayaFactory();
+				gameFactory = new RayaFactoryExt();
 			}
 			break;			
 		default:

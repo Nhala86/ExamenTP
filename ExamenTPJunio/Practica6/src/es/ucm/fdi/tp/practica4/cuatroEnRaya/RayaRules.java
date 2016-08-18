@@ -70,7 +70,7 @@ public class RayaRules implements GameRules{
 				 if(board.getPosition(r, x) != null){
 					 contador++;
 					 if(contador == ((this.dimension * this.dimension) - this.dimension)){
-						 return new Pair<State, Piece>(State.Draw, null);
+						 result = new Pair<State, Piece>(State.Draw, null);
 					 }
 				 }
 				 else{
@@ -78,12 +78,13 @@ public class RayaRules implements GameRules{
 				 }
 			 }
 		 }
-		
+		 
+		//Check row
 		for(int i= 1; i < this.dimension; i++ ){ 
 			counter = 0; 
 			for(int j = 0; j < this.dimension; j++){ 
 				if(counter == 4){ 
-					return new Pair<State, Piece>(State.Won, turn); 
+					result = new Pair<State, Piece>(State.Won, turn); 
 				} 
 				else{ 
 					if(turn.equals(board.getPosition(i, j))) 
@@ -104,9 +105,33 @@ public class RayaRules implements GameRules{
 			 		counter = 0;
 				
 				if(counter == 4){ 
-			 		return new Pair<State, Piece>(State.Won, turn); 
+			 		result = new Pair<State, Piece>(State.Won, turn); 
 			 	}
 			 } 
+		}
+		
+		
+		//check diagonal
+		for(int r = 1; r < this.dimension; r++){
+			counter = 0;
+			for(int c = 0; c < this.dimension; c++){				
+				if(board.getPosition(r, c).equals(turn)){
+					counter++;
+					if(board.getPosition(r + 1, c - 1).equals(turn)){
+						counter++;
+					}
+					else if(board.getPosition(r + 1, c + 1).equals(turn)){
+						counter++;
+					}
+					else{
+						counter = 0;
+					}
+				}
+				
+				if(counter == 4){
+					result = new Pair<State, Piece>(State.Won, turn);
+				}
+			}
 		}
 		return result;
 	}

@@ -323,6 +323,7 @@ public abstract class SwingView extends JFrame implements GameObserver{
 		selectModePlayerComponent();
 		automaticMoveComponent();
 		modoBomba();
+		modoDestruir();
 		exitComponent();		
 		this.add(boardPanel, BorderLayout.CENTER);
 		this.add(ControllerPanel, BorderLayout.LINE_END);
@@ -1043,5 +1044,55 @@ public abstract class SwingView extends JFrame implements GameObserver{
 		});
 		
 	}	
+
+	//------------------------------------------- Boton Destruir ---------------------------------
 	
+	private JComboBox<Integer> modoDestruccion;
+	private JPanel modoDestruir;
+	
+	private void modoDestruir(){
+		this.modoDestruir = createPanelLabeled("Radio destructor de ", Color.LIGHT_GRAY);
+		this.modoDestruccion = new JComboBox<Integer>();
+		for(int i = 1; i < 5; i++){
+			this.modoDestruccion.addItem(i);
+		}
+		this.modoDestruir.add(modoDestruccion);
+		
+		JButton destruir = new JButton("Destruir");
+		this.modoDestruir.add(destruir);
+		destruir.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int j = modoDestruccion.getSelectedIndex();
+				Player eliminar = new DestruirPlayer();
+				((DestruirPlayer) eliminar).setRadioAction(j);
+				caseMakeDestruir(eliminar);				
+			}
+		});
+		this.ControllerPanel.add(this.modoDestruir);
+	}
+	
+	final protected void caseMakeDestruir(Player destruirPlayer){
+		if(this.inMove || this.inPlay){
+			return;
+		}
+		if(this.localPiece != null && !this.localPiece.equals(turn)){
+			return;
+		}
+		executeControllerDestruir(destruirPlayer);
+	}
+
+	private void executeControllerDestruir(final Player destruirPlayer) {
+		SwingUtilities.invokeLater(new Runnable(){
+
+			@Override
+			public void run() {
+				try{
+					controller.makeMove(destruirPlayer);
+				}catch(GameError e){}
+				
+			}
+		});		
+	}
 }

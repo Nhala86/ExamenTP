@@ -25,6 +25,7 @@ import es.ucm.fdi.tp.basecode.bgame.model.Game;
 import es.ucm.fdi.tp.basecode.bgame.model.GameError;
 import es.ucm.fdi.tp.basecode.bgame.model.Piece;
 import es.ucm.fdi.tp.basecode.minmax.MinMax;
+import es.ucm.fdi.tp.practica5.Damas.DamasFactoryExt;
 import es.ucm.fdi.tp.practica5.ataxx.AtaxxFactoryExt;
 import es.ucm.fdi.tp.practica5.connectn.ConnectNFactoryExt;
 import es.ucm.fdi.tp.practica5.cuatroEnRaya.RayaFactoryExt;
@@ -874,7 +875,7 @@ public class examenJunio {
 	 */
 	enum GameInfo {
 		CONNECTN("cn", "ConnectN"), TicTacToe("ttt", "Tic-Tac-Toe"), AdvancedTicTacToe("attt",
-				"Advanced Tic-Tac-Toe"), Ataxx("atax", "Ataxx"), Peones("peones", "Peones"), FourInLine("four", "Four"), Foxy("fx", "Foxy");
+				"Advanced Tic-Tac-Toe"), Ataxx("atax", "Ataxx"), Peones("peones", "Peones"), FourInLine("four", "Four"), Foxy("fx", "Foxy"), Damas("dm", "Damas");
 
 		private String id;
 		private String desc;
@@ -998,6 +999,14 @@ public class examenJunio {
 			}
 			else{
 				gameFactory = new FoxyFactoryExt();
+			}
+			break;
+		case Damas:
+			if(dimRows != null && dimCols != null && dimRows == dimCols){
+				gameFactory = new DamasFactoryExt(dimRows);
+			}
+			else{
+				gameFactory = new DamasFactoryExt();
 			}
 			break;
 		default:

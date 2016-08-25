@@ -61,8 +61,7 @@ public class RayaRules implements GameRules{
 
 	@Override
 	public Pair<State, Piece> updateState(Board board, List<Piece> pieces, Piece turn) {
-		Pair<State, Piece> result = new Pair<State, Piece>(State.InPlay, null) ;
-		int counter;
+		Pair<State, Piece> result = new Pair<State, Piece>(State.InPlay, null) ;		
 		int contador = 0;
 		
 		 for(int r = 1; r < this.dimension; r++){
@@ -80,31 +79,29 @@ public class RayaRules implements GameRules{
 		 }
 		 
 		//Check row
-		for(int i= 1; i < this.dimension; i++ ){ 
-			counter = 0; 
+		for(int i= 1; i < this.dimension; i++ ){ 			
 			for(int j = 0; j < this.dimension; j++){ 
-				if(counter == 4){ 
+				if(contador == 4){ 
 					result = new Pair<State, Piece>(State.Won, turn); 
 				} 
 				else{ 
 					if(turn.equals(board.getPosition(i, j))) 
-						counter++; 					
+						contador++; 					
 					else 
-						counter = 0; 
+						contador = 0; 
 					} 
 			 } 
 		} 
 					 
 		//Check Cols 
-		for(int k = 0; k < this.dimension; k++){ 
-			counter = 0; 
+		for(int k = 0; k < this.dimension; k++){ 			
 			for(int d = 0; d < this.dimension; d++){ 
 				if(turn.equals(board.getPosition(d, k)))
-					counter++; 
+					contador++; 
 			 	else 
-			 		counter = 0;
+			 		contador = 0;
 				
-				if(counter == 4){ 
+				if(contador == 4){ 
 			 		result = new Pair<State, Piece>(State.Won, turn); 
 			 	}
 			 } 
@@ -112,29 +109,57 @@ public class RayaRules implements GameRules{
 		
 		
 		//check diagonal
-		for(int r = 1; r < this.dimension; r++){
-			counter = 0;
+		for(int r = 1; r < this.dimension; r++){			
 			for(int c = 0; c < this.dimension; c++){				
-				if(board.getPosition(r, c).equals(turn)){
-					counter++;
-					if(board.getPosition(r + 1, c - 1).equals(turn)){
-						counter++;
-					}
-					else if(board.getPosition(r + 1, c + 1).equals(turn)){
-						counter++;
-					}
-					else{
-						counter = 0;
+				if(turn.equals(board.getPosition(r, c))){					
+					if(!dimensionTablero(r) && !dimensionTableroCol(c)){
+						//if(!piezaContada(board, r, c, turn)){
+							if(turn.equals(board.getPosition(r + 1, c - 1)) || turn.equals(board.getPosition(r + 1, c + 1))){
+							contador++;
+							}						
+						//}
+						else{
+							contador = 0;
+						}
 					}
 				}
 				
-				if(counter == 4){
+				if(contador == 4){
 					result = new Pair<State, Piece>(State.Won, turn);
 				}
 			}
 		}
 		return result;
 	}
+	
+	private boolean dimensionTablero(int row){
+		boolean ok = false;
+		int r = row + 1;
+		if(r >= this.dimension){
+			ok = true;
+		}
+		return ok;
+	}
+	
+	private boolean dimensionTableroCol(int col){
+		boolean okCol = false;
+		int c = col + 1;
+		int x = col - 1;
+		if(c >= this.dimension || x < 0){
+			okCol = true;
+		}
+		return okCol;
+	}
+	
+	/*private boolean piezaContada(Board board, int r, int c, Piece p){
+		boolean pieza = false;
+		if(p.equals(board.getPosition(r, c - 1))){
+			pieza = true;
+		}
+		return pieza;
+	}*/
+	
+	
 	
 	@Override
 	public Piece nextPlayer(Board board, List<Piece> pieces, Piece turn) {
